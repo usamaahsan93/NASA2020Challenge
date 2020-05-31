@@ -53,7 +53,7 @@ def load_and_format_Data(fname):
     dates=df['date']
     dates=np.array(dates)
     
-    df=df.drop(columns=['Date_repor','Country','WHO_region','date','tests_units'])
+    df=df.drop(columns=['Country','WHO_region','date','tests_units'])
      
     return df,dates
 
