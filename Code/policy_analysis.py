@@ -68,7 +68,7 @@ def load_and_format_Data(fname):
 if __name__ == '__main__':
     plt.close('all')
     #Dataset file name
-    chosen_country='Vietnam'
+    chosen_country='China'
     
     #Data format and object data removed, and dates extracted seperately
     df,dates=load_and_format_Data(chosen_country)
@@ -102,13 +102,19 @@ if __name__ == '__main__':
     plot(dates,dfScaled,l,chosen_country,analysisType='Isolation policies',baseline=True)
 
 
+    # l=[
+    #    'gdp_per_capita',
+    #    'extreme_poverty'       
+    #    ]
+    # plot(dates,dfScaled,l,chosen_country,analysisType='Average economical condition',baseline=True)
+
+
+
     l=[
-       'gdp_per_capita',
-       'extreme_poverty'       
+       'Testing policy (OxBSG)',
+       'Contact tracing (OxBSG)'       
        ]
-    plot(dates,dfScaled,l,chosen_country,analysisType='Average economical condition',baseline=True)
-
-
+    plot(dates,dfScaled,l,chosen_country,analysisType='Tracing and testing policy',baseline=True)
 
 
 
