@@ -6,3 +6,4 @@ Pandas 1.0.3
 
 Matplotlib 3.1.3
 
+Tkinter 8.6
