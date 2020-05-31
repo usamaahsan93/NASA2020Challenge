@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore")
 
    
 def plot(dates,data,l,countryName,analysisType,baseline=True,factor=1):
-    plt.figure()
+    plt.figure(figsize=(11,6.875))
 
     if baseline:
         a=data['Cumulative_cases'].to_numpy()
@@ -33,7 +33,7 @@ def plot(dates,data,l,countryName,analysisType,baseline=True,factor=1):
         plt.plot(data[i], label=i,marker=mrkr[c%total],linestyle='')
         c=c+1
         
-    xx=np.arange(0,120,10)
+    xx=np.arange(0,len(dates),10)
     xDates=dates[xx]
     plt.xticks(xx,xDates,rotation=30)
     plt.xlabel('Time',fontsize=14)
