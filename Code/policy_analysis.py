@@ -19,89 +19,112 @@ import warnings
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-
+from backend import load_and_format_Data, plot
 warnings.filterwarnings("ignore")
 
-   
-def plot(dates,data,l,countryName,analysisType,baseline=True):
-    plt.figure()
-
-    if baseline:
-        a=df['Cumulative_cases'].to_numpy()
-        z=[x - a[i - 1] for i, x in enumerate(a)][1:]
-        z=z/max(z)
-        plt.plot(z,label='Difference of consecutive Cummulative Cases',c='r')
-
-    mrkr=['H','o','1','4','*','h','2','+','3','x']
-    total=len(l)
-    c=0
-    
-    for i in l:
-        plt.plot(data[i], label=i,marker=mrkr[c%total],linestyle='')
-        c=c+1
-        
-    xx=np.arange(0,120,10)
-    xDates=dates[xx]
-    plt.xticks(xx,xDates,rotation=30)
-    plt.xlabel('Time',fontsize=14)
-    plt.title(chosen_country+' - '+analysisType,fontsize=18)
-    plt.legend()
-    plt.grid()
-
-def dataScaling(df):
-    scaling=MinMaxScaler()
-    _scaled=scaling.fit_transform(df)
-    dfScaled = pd.DataFrame(_scaled, columns=df.columns,index=df.index)
-    return dfScaled
 
 
-def load_and_format_Data(fname):
-    df=pd.read_csv(chosen_country+'.csv')
-    dates=df['date']
-    dates=np.array(dates)
-    
-    df=df.drop(columns=['Date_repor','Country','WHO_region','date','tests_units'])
-     
-    return df,dates
-
-
-if __name__ == '__main__':
-    plt.close('all')
+plt.close('all')
     #Dataset file name
-    chosen_country='China'
+chosen_country='Italy'
     
     #Data format and object data removed, and dates extracted seperately
-    df,dates=load_and_format_Data(chosen_country)
-    dfScaled=dataScaling(df)
-    
-    #User will enter this list using checklist and plot will be adjusted accordingly
-    l=['total_cases','Close public transport (OxBSG)',
-       'International travel controls (OxBSG)','Workplace Closures (OxBSG)',
-       'Cancel public events (OxBSG)', 'Restrictions on gatherings (OxBSG)',
-       'Stay at home requirements (OxBSG)','Restrictions on internal movement (OxBSG)'
-       ]
-    
-    l=[
+df,dates=load_and_format_Data(chosen_country)
+    # dfScaled=dataScaling(df)
+dfScaled=df
+
+l=[
        'International travel controls (OxBSG)',
        'Restrictions on internal movement (OxBSG)'
        
        ]    
-    plot(dates,dfScaled,l,chosen_country,analysisType='Travel ban',baseline=True)
+plot(dates,dfScaled,l,chosen_country,analysisType='Travel ban',baseline=True,factor=4)
 
 
-    l=[
+l=[
        'School closures',
        'Workplace Closures (OxBSG)'       
        ]
-    plot(dates,dfScaled,l,chosen_country,analysisType='Closure policies',baseline=True)
+plot(dates,dfScaled,l,chosen_country,analysisType='Closure policies',baseline=True,factor=4)
 
-    l=[
+l=[
        'Stay at home requirements (OxBSG)',
        'Cancel public events (OxBSG)'       
        ]
-    plot(dates,dfScaled,l,chosen_country,analysisType='Isolation policies',baseline=True)
+plot(dates,dfScaled,l,chosen_country,analysisType='Isolation policies',baseline=True,factor=4)
 
 
+
+l=[
+       'Testing policy (OxBSG)',
+       'Contact tracing (OxBSG)'       
+       ]
+plot(dates,dfScaled,l,chosen_country,analysisType='Tracing and testing policy',baseline=True,factor=4)
+
+
+
+
+
+
+
+
+
+#######################################################################
+####################### GARBAGE CODE ##################################
+#######################################################################
+   
+# def plot(dates,data,l,countryName,analysisType,baseline=True):
+#     plt.figure()
+
+#     if baseline:
+#         a=df['Cumulative_cases'].to_numpy()
+#         z=[x - a[i - 1] for i, x in enumerate(a)][1:]
+#         z=z/max(z)
+#         z=z*4
+#         plt.plot(z,label='Difference of consecutive Cummulative Cases',c='r')
+
+#     mrkr=['>','h','o','1','4','*','H','2','+','3','x']
+#     total=len(l)
+#     c=0
+    
+#     for i in l:
+#         plt.plot(data[i], label=i,marker=mrkr[c%total],linestyle='')
+#         c=c+1
+        
+#     xx=np.arange(0,120,10)
+#     xDates=dates[xx]
+#     plt.xticks(xx,xDates,rotation=30)
+#     plt.xlabel('Time',fontsize=14)
+#     plt.title(chosen_country+' - '+analysisType,fontsize=18)
+#     plt.legend()
+#     plt.grid()
+
+# def dataScaling(df):
+#     scaling=MinMaxScaler()
+#     _scaled=scaling.fit_transform(df)
+#     dfScaled = pd.DataFrame(_scaled, columns=df.columns,index=df.index)
+#     return dfScaled
+
+
+# def load_and_format_Data(fname):
+#     df=pd.read_csv(chosen_country+'.csv')
+#     dates=df['date']
+#     dates=np.array(dates)
+    
+#     df=df.drop(columns=['Date_repor','Country','WHO_region','date','tests_units'])
+     
+#     return df,dates
+
+
+    #User will enter this list using checklist and plot will be adjusted accordingly
+    # l=['total_cases','Close public transport (OxBSG)',
+    #    'International travel controls (OxBSG)','Workplace Closures (OxBSG)',
+    #    'Cancel public events (OxBSG)', 'Restrictions on gatherings (OxBSG)',
+    #    'Stay at home requirements (OxBSG)','Restrictions on internal movement (OxBSG)'
+    #    ]
+    
+    
+    
     # l=[
     #    'gdp_per_capita',
     #    'extreme_poverty'       
@@ -109,23 +132,7 @@ if __name__ == '__main__':
     # plot(dates,dfScaled,l,chosen_country,analysisType='Average economical condition',baseline=True)
 
 
-
-    l=[
-       'Testing policy (OxBSG)',
-       'Contact tracing (OxBSG)'       
-       ]
-    plot(dates,dfScaled,l,chosen_country,analysisType='Tracing and testing policy',baseline=True)
-
-
-
-
-
-
-
-
-
-
-
+    
 
 # a=df['Cumulative_cases'].to_numpy()
 # z=[x - a[i - 1] for i, x in enumerate(a)][1:]
